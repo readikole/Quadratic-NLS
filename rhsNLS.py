@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import axes3d
 import matplotlib.cm as cm
 
 #intialize constants
-b = 0             #Diffusion coefficient
+b = 0            
 L = 60
 N = 1000
 dx = L/N
@@ -24,7 +24,7 @@ t = np.arange(0, 55500*dt, dt)
 
 
 #function to be integrated
-def rhsBurgers(u,t , kappa, b):
+def rhsNLS(u,t , kappa, b):
     uhat = np.fft.fft(u)
     #d_uhat = (1j)*kappa*uhat
     dd_uhat =  - np.power(kappa, 2)*uhat
@@ -33,7 +33,7 @@ def rhsBurgers(u,t , kappa, b):
     du_dt = - (1j)*(dd_u + 6*u*u - 4*u +b*(u - np.conj(u)))
     return du_dt.real
 
-u = odeint(rhsBurgers, u0, t, args=(kappa, b))
+u = odeint(rhsNLS, u0, t, args=(kappa, b))
 
 
 
